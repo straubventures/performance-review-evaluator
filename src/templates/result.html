@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+    <title>Result</title>
+</head>
+<body>
+<div id="neatdata">
+
+</div>
+<div id="ID"></div>
+{% block content %}
+
+<script type="text/javascript"
+ src="https://www.gstatic.com/charts/loader.js"></script>
+<div id="this_one">
+<script type="text/javascript">
+
+
+var data = JSON.parse("{{data|escapejs}}");
+data_array = Object.entries(data)
+
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+
+function drawChart() {
+  var graph = google.visualization.arrayToDataTable(data_array, true)
+  var options = {'title':'Specific Words', 'width':550, 'height':400};
+  var chart =
+ new google.visualization.PieChart(document.getElementById('this_one'));
+  chart.draw(graph, options);
+}
+</script>
+
+
+
+</div>
+<div id="second-graph">
+<script type="text/javascript">
+
+var data = JSON.parse("{{data|escapejs}}");
+data_array = Object.entries(data)
+
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+  var graph = google.visualization.arrayToDataTable(data_array, true)
+  var options = {'title':'Specific Words', 'width':550, 'height':400};
+  var chart =
+ new google.visualization.BarChart(document.getElementById('second-graph'));
+  chart.draw(graph, options);
+}
+</script>
+</div>
+
+<script type="text/javascript">
+    if ({{ prediction }} < .1) {
+        var newElement = document.createElement('img')
+        url = "https://cdn.staticcrate.com/stock-hd/effects/footagecrate-4k-simple-looping-loading-bar-red-effect-lg.jpg"
+        newElement.src = url
+        newElement.width = "100"
+        newElement.height = "30"
+        weak = document.createElement('p')
+        weak.innerHTML = "Red: Not Specific"
+        strong = document.createElement('p')
+        strong.innerHTML = "Green: Specific"
+        medium = document.createElement('p')
+        medium.innerHTML = "Yellow: Moderately specific"
+        document.getElementById("ID").appendChild(strong);
+        document.getElementById("ID").appendChild(medium);
+        document.getElementById("ID").appendChild(weak);
+        document.getElementById("ID").appendChild(newElement);
+
+        }
+    else if ({{ prediction }} >= .1 && {{ prediction }} < .4) {
+        var newElement = document.createElement('img')
+        url = "https://cdn.staticcrate.com/stock-hd/effects/footagecrate-4k-simple-looping-loading-bar-yellow-prev-full.png"
+        newElement.src = url
+        newElement.width = "100"
+        newElement.height = "30"
+        weak = document.createElement('p')
+        weak.innerHTML = "Red: Not Specific"
+        strong = document.createElement('p')
+        strong.innerHTML = "Green: Specific"
+        medium = document.createElement('p')
+        medium.innerHTML = "Yellow: Moderately specific"
+        document.getElementById("ID").appendChild(strong);
+        document.getElementById("ID").appendChild(medium);
+        document.getElementById("ID").appendChild(weak);
+        document.getElementById("ID").appendChild(newElement);
+        }
+    else {
+        var newElement = document.createElement('img')
+        url = "https://cdn.staticcrate.com/stock-hd/effects/footagecrate-4k-simple-looping-loading-bar-green-prev-full.png"
+        newElement.src = url
+        newElement.width = "100"
+        newElement.height = "30"
+        weak = document.createElement('p')
+        weak.innerHTML = "Red: Not Specific"
+        strong = document.createElement('p')
+        strong.innerHTML = "Green: Specific"
+        medium = document.createElement('p')
+        medium.innerHTML = "Yellow: Moderately specific"
+        document.getElementById("ID").appendChild(strong);
+        document.getElementById("ID").appendChild(medium);
+        document.getElementById("ID").appendChild(weak);
+        document.getElementById("ID").appendChild(newElement);
+        }
+</script>
+
+
+
+<p>Total Score: {{ prediction }}</p>
+<p>Original Text: {{ hello }}</p>
+
+<button><a href="../home/">Back to Form</a></button>
+
+
+{% endblock %}
+
+</body>
+</html>

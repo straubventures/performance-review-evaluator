@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+<head>
+	 <script type="text/javascript" src="{% static 'fusioncharts/fusioncharts.js' %}"></script>
+   <script type="text/javascript" src="{% static 'fusioncharts/themes/fusioncharts.theme.fint.js' %}"></script>
+</head>
+
+{% block content %}
+<h1>Performance Review Evaluator</h1>
+
+
+
+<p>Please type below</p>
+
+{{ func }}
+{% endblock %}
+
+
+{% block hello %}
+<form id="text" name="text" action="../result/" method="POST" >
+	{% csrf_token %}
+	<textarea form="text" name=”text” id="texts"></textarea>
+	<br>
+
+	<button type="submit" > Submit </button>
+</form>
+
+{% endblock %}
